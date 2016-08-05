@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">   微信聊天</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="app_id">570f5f59</string>
+    
+    <string name="pref_key_iat_show">iat_show</string>
+
+</resources>
