@@ -65,7 +65,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	// ”Ô“Ù
 	private ImageView volume;
-	private ImageView btn_photo;
 	private SoundMeter mSensor;
 	private CircleWaveView mCircleWaveView;
 
