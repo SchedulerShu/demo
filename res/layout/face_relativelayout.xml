@@ -12,7 +12,7 @@
 
         <RelativeLayout
             android:id="@+id/btn_bottom"
-            android:layout_width="fill_parent"
+            android:layout_width="200dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" >
