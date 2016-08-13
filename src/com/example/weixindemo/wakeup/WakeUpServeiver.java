@@ -49,8 +49,15 @@ public class WakeUpServeiver extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// 非空判断，防止因空指针使程序崩溃
 		mIvw = VoiceWakeuper.getWakeuper();
+		
+		Log.d(TAG, "onStartCommand....");
+		
 		if (mIvw != null) {
 
+			Log.d(TAG, "wakeup begin....");
+			
+			
+			
 			resultString = "";
 
 			// 清空参数
@@ -74,6 +81,8 @@ public class WakeUpServeiver extends Service {
 		return START_STICKY;
 
 	}
+
+
 
 	private WakeuperListener mWakeuperListener = new WakeuperListener() {
 
@@ -100,11 +109,17 @@ public class WakeUpServeiver extends Service {
 				buffer.append("\n");
 				buffer.append("【尾端点】" + object.optString("eos"));
 				resultString = buffer.toString();
-				int scors = Integer.parseInt(object.optString("score"));
+				int score = Integer.parseInt(object.optString("score"));
 
-				Intent intent = new Intent(mContext, MainActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				mContext.startActivity(intent);
+				if(score > 0)
+				{
+					Intent intent = new Intent(mContext, MainActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				
+					mContext.startActivity(intent);
+				}
+				
+				
 
 			} catch (JSONException e) {
 				resultString = "结果解析出错";

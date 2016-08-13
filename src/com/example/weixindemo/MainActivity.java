@@ -23,10 +23,12 @@ import com.iflytek.cloud.SpeechUnderstander;
 import com.iflytek.cloud.SpeechUnderstanderListener;
 import com.iflytek.cloud.SynthesizerListener;
 import com.iflytek.cloud.UnderstanderResult;
+import com.iflytek.cloud.SpeechEvent;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
@@ -44,6 +46,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +69,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	// 语音
 	private ImageView volume;
+	private ImageView btn_photo;
 	private SoundMeter mSensor;
 	private CircleWaveView mCircleWaveView;
 
@@ -84,12 +89,19 @@ public class MainActivity extends Activity implements OnClickListener {
 	public static final int STATUS_Speaking = 4;
 	public static final int STATUS_Recognition = 5;
 	private int stat = STATUS_None;
+	
+	boolean     isshow = false;
 	int ret = 0;// 函数调用返回值
 	private Handler mHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	    WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
+		   
 		setContentView(R.layout.chat);
 
 		initView();
@@ -101,7 +113,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void playerWarning() {
 		MediaPlayer mediaPlayer01;
 		mediaPlayer01 = MediaPlayer.create(getBaseContext(), R.raw.bdspeech_recognition_start);
-		mediaPlayer01.setAudioStreamType(AudioManager.STREAM_RING);
+		mediaPlayer01.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		//mediaPlayer01.setLooping(true);
 		mediaPlayer01.start();
 	}
 
@@ -176,12 +189,31 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
+		
+		 /**
+		  * 设置为横屏
+		  */
+		 if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+		  setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		 }
+		
 		super.onResume();
 		Log.d(TAG, "onResume....");
-		Intent inten = new Intent();
-		inten.setClass(this, WakeUpServeiver.class);
-		stopService(inten);
+		Intent intentTowakeup = new Intent();
+		intentTowakeup.setClass(this, WakeUpServeiver.class);
+		stopService(intentTowakeup);
 		mCircleWaveView.setVisibility(View.GONE);
+		
+	
+		String text ="欢迎光临，请吩咐";
+		
+		//mTts.startSpeaking(text, mTtsListener);
+		send(text);
+		
+		isshow = true;
+		
+		startSpeech();
+		
 	}
 
 	@Override
@@ -214,11 +246,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		setUnderParam();
 
 		if (mSpeechUnderstander.isUnderstanding()) {// 开始前检查状态
-			mSpeechUnderstander.stopUnderstanding();
+			mSpeechUnderstander.cancel();
 			Log.d(TAG, "停止录音");
 			stat = STATUS_None;
 			mCircleWaveView.setVisibility(View.GONE);
 		} else {
+			
+			mCircleWaveView.setVisibility(View.VISIBLE);
 			ret = mSpeechUnderstander.startUnderstanding(mSpeechUnderstanderListener);
 			if (ret != 0) {
 				Log.d(TAG, "语义理解失败,错误码:" + ret);
@@ -519,9 +553,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onStop() {
 		super.onStop();
 		Log.d(TAG, "onStop...");
+		
+		isshow = false; 
+		if (mSpeechUnderstander.isUnderstanding()) // 开始前检查状态
+			 mSpeechUnderstander.cancel();
+		
 		Intent inten = new Intent();
 		inten.setClass(this, WakeUpServeiver.class);
 		startService(inten);
+		
+		
 	}
 
 	/**
@@ -572,6 +613,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else {
 				Log.d(TAG, "识别结果不正确。");
 			}
+			
+			
 		}
 
 		@Override
@@ -607,10 +650,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
 			// 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
-			// if (SpeechEvent.EVENT_SESSION_ID == eventType) {
-			// String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
-			// Log.d(TAG, "session id =" + sid);
-			// }
+			 if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+			 String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+			 Log.d(TAG, "session id =" + sid);
+			 }
 		}
 	};
 
@@ -684,6 +727,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else if (error != null) {
 				Log.d(TAG, error.getPlainDescription(true));
 			}
+			
+			if(isshow == true)
+			   startSpeech();
+			
 		}
 
 		@Override

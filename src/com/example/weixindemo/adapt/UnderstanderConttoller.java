@@ -61,7 +61,22 @@ public class UnderstanderConttoller {
 				String text = ss.getAnswer().getText();
 				Log.d(TAG, "text  :"+text);
 				return text;
-			}else{
+			}else if("calc".equals(service))
+			{
+				CommonJson ss = gson.fromJson(command, CommonJson.class);
+				String text = ss.getAnswer().getText();
+				Log.d(TAG, "text  :"+text);
+				return text;
+			}
+			else if("datetime".equals(service))
+			{
+				CommonJson ss = gson.fromJson(command, CommonJson.class);
+				String text = ss.getAnswer().getText();
+				Log.d(TAG, "text  :"+text);
+				return text;
+			}
+			else
+			{
 				return "不能识别！";
 			}
 		}
