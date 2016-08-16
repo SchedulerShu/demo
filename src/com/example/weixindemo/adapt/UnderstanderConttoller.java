@@ -2,6 +2,7 @@ package com.example.weixindemo.adapt;
 
 import com.example.weixindemo.json.CommonJson;
 import com.example.weixindemo.json.FqaJson;
+import com.example.weixindemo.json.WeatherJson;
 import com.google.gson.Gson;
 
 import android.content.Context;
@@ -48,7 +49,6 @@ public class UnderstanderConttoller {
 			}else if(service.equals("faq")){
 				FqaJson fqa = gson.fromJson(command, FqaJson.class);
 				String text = fqa.getAnswer().getText();
-				
 				Log.d(TAG, "text  :"+text);
 				return text;
 			}else if(service.equals("openQA")){
@@ -74,9 +74,24 @@ public class UnderstanderConttoller {
 				String text = ss.getAnswer().getText();
 				Log.d(TAG, "text  :"+text);
 				return text;
+			}else if("weather".equals(service)){
+				WeatherJson weather = gson.fromJson(command, WeatherJson.class);
+				StringBuffer sbBuffer = new StringBuffer();
+				sbBuffer.append(weather.getData().getResult().get(0).getCity());
+				sbBuffer.append("天气");
+				sbBuffer.append(weather.getData().getResult().get(0).getWeather());
+				sbBuffer.append("空气质量"+weather.getData().getResult().get(0).getAirQuality());
+				sbBuffer.append("温度"+weather.getData().getResult().get(0).getTempRange());
+				Log.d(TAG, "text  :"+sbBuffer);
+				return sbBuffer.toString();
+			}else if("websearch".equals(service)){
+				CommonJson ss = gson.fromJson(command, CommonJson.class);
+				String text = ss.getText();
+				
+				Log.d(TAG, "text  :"+text);
+				return text;
 			}
-			else
-			{
+			else{
 				return "不能识别！";
 			}
 		}

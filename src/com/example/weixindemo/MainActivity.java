@@ -18,12 +18,14 @@ import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechEvent;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SpeechUnderstander;
 import com.iflytek.cloud.SpeechUnderstanderListener;
 import com.iflytek.cloud.SynthesizerListener;
 import com.iflytek.cloud.UnderstanderResult;
 import com.iflytek.cloud.SpeechEvent;
+import android.annotation.SuppressLint;
 
 import android.app.Activity;
 import android.content.Context;
@@ -61,7 +63,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
-	private Button mBtnBack;
 	private EditText mEditTextContent;
 	private ListView mListView;
 	private ChatMsgViewAdapter mAdapter;
@@ -89,19 +90,18 @@ public class MainActivity extends Activity implements OnClickListener {
 	public static final int STATUS_Speaking = 4;
 	public static final int STATUS_Recognition = 5;
 	private int stat = STATUS_None;
-	
-	boolean     isshow = false;
+
+	boolean isshow = false;
 	int ret = 0;// 函数调用返回值
 	private Handler mHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-	    WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
-		   
+
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
+
 		setContentView(R.layout.chat);
 
 		initView();
@@ -110,49 +110,25 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSpeechUnderstander = SpeechUnderstander.createUnderstander(MainActivity.this, mInitListener);
 		mTts = SpeechSynthesizer.createSynthesizer(this, mInitListener);
 	}
+
 	public void playerWarning() {
 		MediaPlayer mediaPlayer01;
 		mediaPlayer01 = MediaPlayer.create(getBaseContext(), R.raw.bdspeech_recognition_start);
 		mediaPlayer01.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		//mediaPlayer01.setLooping(true);
+		// mediaPlayer01.setLooping(true);
 		mediaPlayer01.start();
-	}
-
-	MediaPlayer mediaPlayer;
-
-	private void startPlay() {
-		if (mediaPlayer == null) {
-			try {
-				mediaPlayer = new MediaPlayer();
-				mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
-					@Override
-					public void onPrepared(MediaPlayer mp) {
-						mediaPlayer.start();
-					}
-				});
-				mediaPlayer.reset();
-				mediaPlayer.setAudioSessionId(R.raw.bdspeech_recognition_start);
-				mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-				mediaPlayer.prepareAsync();
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public void initView() {
 		// btn_face = (ImageButton)findViewById(R.id.btn_face);
-		//btn_photo = (ImageView) findViewById(R.id.btn_photo);
+		// btn_photo = (ImageView) findViewById(R.id.btn_photo);
 		mListView = (ListView) findViewById(R.id.listview);
-		//mBtnBack = (Button) findViewById(R.id.btn_back);
 		volume = (ImageView) this.findViewById(R.id.volume);
 		mCircleWaveView = (CircleWaveView) findViewById(R.id.crircle);
 		mSensor = new SoundMeter();
-		//mBtnBack.setOnClickListener(this);
-		//btn_photo.setOnClickListener(this);
+		// btn_photo.setOnClickListener(this);
 		findViewById(R.id.btn_speech).setOnClickListener(this);
-		mCircleWaveView.setVisibility(View.VISIBLE);
+
 	}
 
 	private void start(String name) {
@@ -189,46 +165,40 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		
-		 /**
-		  * 设置为横屏
-		  */
-		 if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
-		  setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		 }
-		
+
+		/**
+		 * 设置为横屏
+		 */
+		if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		}
+
 		super.onResume();
 		Log.d(TAG, "onResume....");
 		Intent intentTowakeup = new Intent();
 		intentTowakeup.setClass(this, WakeUpServeiver.class);
 		stopService(intentTowakeup);
-		mCircleWaveView.setVisibility(View.GONE);
-		
-	
-		String text ="欢迎光临，请吩咐";
-		
-		//mTts.startSpeaking(text, mTtsListener);
+		mCircleWaveView.setVisibility(View.VISIBLE);
+
+		String text = "欢迎光临，请吩咐";
+
+		// mTts.startSpeaking(text, mTtsListener);
 		send(text);
-		
+
 		isshow = true;
-		
+
 		startSpeech();
-		
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		/*
-		case R.id.btn_back:
-			finish();
-			break;
-		case R.id.btn_photo:
-			new PopupWindows(MainActivity.this, btn_photo);
-			// 隐藏表情选择框
-			((FaceRelativeLayout) findViewById(R.id.FaceRelativeLayout)).hideFaceView();
-			break;
-			*/
+		 * case R.id.btn_back: finish(); break; case R.id.btn_photo: new
+		 * PopupWindows(MainActivity.this, btn_photo); // 隐藏表情选择框
+		 * ((FaceRelativeLayout)
+		 * findViewById(R.id.FaceRelativeLayout)).hideFaceView(); break;
+		 */
 		case R.id.btn_speech:
 			Log.d(TAG, "btn_speech.....");
 			startSpeech();
@@ -238,11 +208,11 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void startSpeech() {
 		startAnimation();
-		
-		if(mTts.isSpeaking()){
+		// mListView.setAdapter(null);
+		if (mTts.isSpeaking()) {
 			mTts.stopSpeaking();
 		}
-		
+
 		setUnderParam();
 
 		if (mSpeechUnderstander.isUnderstanding()) {// 开始前检查状态
@@ -251,7 +221,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			stat = STATUS_None;
 			mCircleWaveView.setVisibility(View.GONE);
 		} else {
-			
 			mCircleWaveView.setVisibility(View.VISIBLE);
 			ret = mSpeechUnderstander.startUnderstanding(mSpeechUnderstanderListener);
 			if (ret != 0) {
@@ -285,7 +254,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void send(String conString) {
 		if (conString.length() > 0) {
 			ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setDate(getDate());
+			// entity.setDate(getDate());
 			entity.setName("古月哥欠");
 			entity.setMsgType(false);
 			entity.setText(conString);
@@ -300,7 +269,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void sendGril(String conString) {
 		if (conString.length() > 0) {
 			ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setDate(getDate());
+			// entity.setDate(getDate());
 			entity.setName("蔷薇泡沫");
 			entity.setMsgType(true);
 			entity.setText(conString);
@@ -422,6 +391,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	@SuppressLint("SdCardPath")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -553,16 +523,15 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onStop() {
 		super.onStop();
 		Log.d(TAG, "onStop...");
-		
-		isshow = false; 
+
+		isshow = false;
 		if (mSpeechUnderstander.isUnderstanding()) // 开始前检查状态
-			 mSpeechUnderstander.cancel();
-		
+			mSpeechUnderstander.cancel();
+
 		Intent inten = new Intent();
 		inten.setClass(this, WakeUpServeiver.class);
 		startService(inten);
-		
-		
+
 	}
 
 	/**
@@ -613,8 +582,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else {
 				Log.d(TAG, "识别结果不正确。");
 			}
-			
-			
+
 		}
 
 		@Override
@@ -650,10 +618,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
 			// 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
-			 if (SpeechEvent.EVENT_SESSION_ID == eventType) {
-			 String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
-			 Log.d(TAG, "session id =" + sid);
-			 }
+			if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+				String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+				Log.d(TAG, "session id =" + sid);
+			}
 		}
 	};
 
@@ -727,10 +695,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			} else if (error != null) {
 				Log.d(TAG, error.getPlainDescription(true));
 			}
-			
-			if(isshow == true)
-			   startSpeech();
-			
+
+			if (isshow == true)
+				startSpeech();
+
 		}
 
 		@Override

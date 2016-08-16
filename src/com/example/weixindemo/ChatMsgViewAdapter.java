@@ -78,7 +78,7 @@ public class ChatMsgViewAdapter extends BaseAdapter{
 				converView=mInflater.inflate(R.layout.chat_right, null);
 			}
 			viewHolder = new ViewHolder();
-			viewHolder.tvSendTime = (TextView)converView.findViewById(R.id.tv_sendtime);
+//			viewHolder.tvSendTime = (TextView)converView.findViewById(R.id.tv_sendtime);
 			viewHolder.tvContent = (TextView)converView.findViewById(R.id.tv_chatcontent);
 			viewHolder.tvTime = (TextView)converView.findViewById(R.id.tv_time);
 			viewHolder.tvUserName = (TextView)converView.findViewById(R.id.tv_username);
@@ -87,7 +87,7 @@ public class ChatMsgViewAdapter extends BaseAdapter{
 		}else {
 			viewHolder = (ViewHolder)converView.getTag();
 		}
-		viewHolder.tvSendTime.setText(entity.getDate());
+//		viewHolder.tvSendTime.setText(entity.getDate());
 		if(entity.getText().contains(".amr")){
 			viewHolder.tvTime.setText(entity.getTime());
 			viewHolder.tvContent.setText("");
