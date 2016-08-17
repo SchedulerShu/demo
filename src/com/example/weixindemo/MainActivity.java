@@ -68,16 +68,16 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ChatMsgViewAdapter mAdapter;
 	private List<ChatMsgEntity> mDateArrays = new ArrayList<ChatMsgEntity>();
 
-	// ÓïÒô
+	// è¯­éŸ³
 	private ImageView volume;
 	private ImageView btn_photo;
 	private SoundMeter mSensor;
 	private CircleWaveView mCircleWaveView;
 
-	public static final int SHOW_ALL_PICTURE = 0x14;// ²é¿´Í¼Æ¬
-	public static final int SHOW_PICTURE_RESULT = 0x15;// ²é¿´Í¼Æ¬·µ»Ø
-	public static final int CLOSE_INPUT = 0x01;// ¹Ø±ÕÈí¼üÅÌ
-	public static Handler handlerInput;// ÓÃÓÚÈí¼üÅÌ+
+	public static final int SHOW_ALL_PICTURE = 0x14;// æŸ¥çœ‹å›¾ç‰‡
+	public static final int SHOW_PICTURE_RESULT = 0x15;// æŸ¥çœ‹å›¾ç‰‡è¿”å›
+	public static final int CLOSE_INPUT = 0x01;// å…³é—­è½¯é”®ç›˜
+	public static Handler handlerInput;// ç”¨äºè½¯é”®ç›˜+
 	// private String photoName;
 
 	private SpeechUnderstander mSpeechUnderstander;
@@ -92,15 +92,15 @@ public class MainActivity extends Activity implements OnClickListener {
 	private int stat = STATUS_None;
 
 	boolean isshow = false;
-	int ret = 0;// º¯Êıµ÷ÓÃ·µ»ØÖµ
+	int ret = 0;// å‡½æ•°è°ƒç”¨è¿”å›å€¼
 	private Handler mHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);// Òş²Ø±êÌâ
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// ÉèÖÃÈ«ÆÁ
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// éšè—æ ‡é¢˜
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// è®¾ç½®å…¨å±
 
 		setContentView(R.layout.chat);
 
@@ -167,7 +167,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 
 		/**
-		 * ÉèÖÃÎªºáÆÁ
+		 * è®¾ç½®ä¸ºæ¨ªå±
 		 */
 		if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -180,7 +180,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		stopService(intentTowakeup);
 		mCircleWaveView.setVisibility(View.VISIBLE);
 
-		String text = "»¶Ó­¹âÁÙ£¬Çë·Ô¸À";
+		String text = "æ¬¢è¿å…‰ä¸´ï¼Œè¯·å©å’";
 
 		// mTts.startSpeaking(text, mTtsListener);
 		send(text);
@@ -195,7 +195,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		/*
 		 * case R.id.btn_back: finish(); break; case R.id.btn_photo: new
-		 * PopupWindows(MainActivity.this, btn_photo); // Òş²Ø±íÇéÑ¡Ôñ¿ò
+		 * PopupWindows(MainActivity.this, btn_photo); // éšè—è¡¨æƒ…é€‰æ‹©æ¡†
 		 * ((FaceRelativeLayout)
 		 * findViewById(R.id.FaceRelativeLayout)).hideFaceView(); break;
 		 */
@@ -215,18 +215,18 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		setUnderParam();
 
-		if (mSpeechUnderstander.isUnderstanding()) {// ¿ªÊ¼Ç°¼ì²é×´Ì¬
+		if (mSpeechUnderstander.isUnderstanding()) {// å¼€å§‹å‰æ£€æŸ¥çŠ¶æ€
 			mSpeechUnderstander.cancel();
-			Log.d(TAG, "Í£Ö¹Â¼Òô");
+			Log.d(TAG, "åœæ­¢å½•éŸ³");
 			stat = STATUS_None;
 			mCircleWaveView.setVisibility(View.GONE);
 		} else {
 			mCircleWaveView.setVisibility(View.VISIBLE);
 			ret = mSpeechUnderstander.startUnderstanding(mSpeechUnderstanderListener);
 			if (ret != 0) {
-				Log.d(TAG, "ÓïÒåÀí½âÊ§°Ü,´íÎóÂë:" + ret);
+				Log.d(TAG, "è¯­ä¹‰ç†è§£å¤±è´¥,é”™è¯¯ç :" + ret);
 			} else {
-				Log.d(TAG, " Çë¿ªÊ¼Ëµ»°¡­");
+				Log.d(TAG, " è¯·å¼€å§‹è¯´è¯â€¦");
 				mCircleWaveView.setVisibility(View.VISIBLE);
 			}
 		}
@@ -255,7 +255,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (conString.length() > 0) {
 			ChatMsgEntity entity = new ChatMsgEntity();
 			// entity.setDate(getDate());
-			entity.setName("¹ÅÔÂ¸çÇ·");
+			entity.setName("å¤æœˆå“¥æ¬ ");
 			entity.setMsgType(false);
 			entity.setText(conString);
 			mDateArrays.add(entity);
@@ -270,7 +270,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (conString.length() > 0) {
 			ChatMsgEntity entity = new ChatMsgEntity();
 			// entity.setDate(getDate());
-			entity.setName("Ç¾Ş±ÅİÄ­");
+			entity.setName("è”·è–‡æ³¡æ²«");
 			entity.setMsgType(true);
 			entity.setText(conString);
 			mDateArrays.add(entity);
@@ -373,13 +373,13 @@ public class MainActivity extends Activity implements OnClickListener {
 					/*
 					 * Intent intent = new Intent(Intent.ACTION_PICK,
 					 * android.provider.MediaStore.Images.Media.
-					 * EXTERNAL_CONTENT_URI);//µ÷ÓÃandroidµÄÍ¼¿â
+					 * EXTERNAL_CONTENT_URI);//è°ƒç”¨androidçš„å›¾åº“
 					 * startActivity(intent); dismiss();
 					 */
 					Intent intent = new Intent(MainActivity.this, ScaleImageFromSdcardActivity.class);
 					MainActivity.this.startActivityForResult(intent, SHOW_ALL_PICTURE);
 					dismiss();
-					overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);// ÉèÖÃÇĞ»»¶¯»­£¬´ÓÓÒ±ß½øÈë£¬×ó±ßÍË³ö
+					overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);// è®¾ç½®åˆ‡æ¢åŠ¨ç”»ï¼Œä»å³è¾¹è¿›å…¥ï¼Œå·¦è¾¹é€€å‡º
 				}
 			});
 			bt3.setOnClickListener(new OnClickListener() {
@@ -397,19 +397,19 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == TAKE_PICTURE && resultCode == Activity.RESULT_OK && null != data) {
 			if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				Toast.makeText(MainActivity.this, "Î´ÕÒµ½SDK", 1).show();
+				Toast.makeText(MainActivity.this, "æœªæ‰¾åˆ°SDK", 1).show();
 				return;
 			}
 			new android.text.format.DateFormat();
 			String name = android.text.format.DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA))
 					+ ".jpg";
 			Bundle bundle = data.getExtras();
-			// »ñÈ¡Ïà»ú·µ»ØµÄÊı¾İ£¬²¢×ª»»ÎªÍ¼Æ¬¸ñÊ½
+			// è·å–ç›¸æœºè¿”å›çš„æ•°æ®ï¼Œå¹¶è½¬æ¢ä¸ºå›¾ç‰‡æ ¼å¼
 			Bitmap bitmap;
 			String filename = null;
 			bitmap = (Bitmap) bundle.get("data");
 			FileOutputStream fout = null;
-			// ¶¨ÒåÎÄ¼ş´æ´¢Â·¾¶
+			// å®šä¹‰æ–‡ä»¶å­˜å‚¨è·¯å¾„
 			File file = new File("/sdcard/cloudteam/");
 			if (!file.exists()) {
 				file.mkdirs();
@@ -434,12 +434,12 @@ public class MainActivity extends Activity implements OnClickListener {
 		} else if (requestCode == SHOW_CAMERA && resultCode == SHOW_CAMERA_RESULT) {
 			Bundle bundle = data.getExtras();
 			Object camera = bundle.get("imgUrl");
-			Log.d("TAG", "ĞèÒª·¢ËÍÕÕÏàµÄÍ¼Æ¬µ½·şÎñÆ÷" + camera.toString());
-			// ½«Í¼Æ¬·¢ËÍµ½ÁÄÌì½çÃæ
+			Log.d("TAG", "éœ€è¦å‘é€ç…§ç›¸çš„å›¾ç‰‡åˆ°æœåŠ¡å™¨" + camera.toString());
+			// å°†å›¾ç‰‡å‘é€åˆ°èŠå¤©ç•Œé¢
 			if (camera.toString().length() > 0) {
 				ChatMsgEntity entity = new ChatMsgEntity();
 				entity.setDate(getDate());
-				entity.setName("¹ÅÔÂ¸çÇ·");
+				entity.setName("å¤æœˆå“¥æ¬ ");
 				entity.setMsgType(false);
 				entity.setText("[" + camera.toString() + "]");
 				mDateArrays.add(entity);
@@ -458,7 +458,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				bmpUrls.add(bmpUrl);
 				ChatMsgEntity entity = new ChatMsgEntity();
 				entity.setDate(getDate());
-				entity.setName("¹ÅÔÂ¸çÇ·");
+				entity.setName("å¤æœˆå“¥æ¬ ");
 				entity.setMsgType(false);
 				entity.setText("[" + bmpUrl + "]");
 				mDateArrays.add(entity);
@@ -466,7 +466,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				mEditTextContent.setText("");
 				mListView.setSelection(mListView.getCount() - 1);
 			}
-			Toast.makeText(MainActivity.this, "Ñ¡ÔñÍ¼Æ¬Êı" + selectPictures.length, Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, "é€‰æ‹©å›¾ç‰‡æ•°" + selectPictures.length, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -491,7 +491,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			startActivityForResult(openCameraIntent, TAKE_PICTURE);
 			// ChatMsgEntity entity = new ChatMsgEntity();
 			// entity.setDate(getDate());
-			// entity.setName("¹ÅÔÂ¸çÇ·");
+			// entity.setName("å¤æœˆå“¥æ¬ ");
 			// entity.setMsgType(false);
 			// entity.setText(path);
 			// mDateArrays.add(entity);
@@ -499,11 +499,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			// mListView.setSelection(mListView.getCount() - 1);
 
 		} else {
-			Toast.makeText(MainActivity.this, "Ã»ÓĞ´¢´æ¿¨", Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, "æ²¡æœ‰å‚¨å­˜å¡", Toast.LENGTH_LONG).show();
 		}
 	}
 
-	public void head_xiaohei(View v) { // ±êÌâÀ¸ ·µ»Ø°´Å¥
+	public void head_xiaohei(View v) { // æ ‡é¢˜æ  è¿”å›æŒ‰é’®
 
 	}
 
@@ -525,7 +525,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		Log.d(TAG, "onStop...");
 
 		isshow = false;
-		if (mSpeechUnderstander.isUnderstanding()) // ¿ªÊ¼Ç°¼ì²é×´Ì¬
+		if (mSpeechUnderstander.isUnderstanding()) // å¼€å§‹å‰æ£€æŸ¥çŠ¶æ€
 			mSpeechUnderstander.cancel();
 
 		Intent inten = new Intent();
@@ -535,20 +535,20 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * ³õÊ¼»¯¼àÌıÆ÷£¨ÓïÒôµ½ÓïÒå£©¡£
+	 * åˆå§‹åŒ–ç›‘å¬å™¨ï¼ˆè¯­éŸ³åˆ°è¯­ä¹‰ï¼‰ã€‚
 	 */
 	private InitListener mInitListener = new InitListener() {
 		@Override
 		public void onInit(int code) {
 			Log.d(TAG, "speechUnderstanderListener init() code = " + code);
 			if (code != ErrorCode.SUCCESS) {
-				Log.d(TAG, "³õÊ¼»¯Ê§°Ü,´íÎóÂë£º" + code);
+				Log.d(TAG, "åˆå§‹åŒ–å¤±è´¥,é”™è¯¯ç ï¼š" + code);
 			}
 		}
 	};
 
 	/**
-	 * ÓïÒåÀí½â»Øµ÷¡£
+	 * è¯­ä¹‰ç†è§£å›è°ƒã€‚
 	 */
 	private SpeechUnderstanderListener mSpeechUnderstanderListener = new SpeechUnderstanderListener() {
 
@@ -580,44 +580,44 @@ public class MainActivity extends Activity implements OnClickListener {
 					}
 				}
 			} else {
-				Log.d(TAG, "Ê¶±ğ½á¹û²»ÕıÈ·¡£");
+				Log.d(TAG, "è¯†åˆ«ç»“æœä¸æ­£ç¡®ã€‚");
 			}
 
 		}
 
 		@Override
 		public void onVolumeChanged(int volume, byte[] data) {
-			// Log.d(TAG, "µ±Ç°ÕıÔÚËµ»°£¬ÒôÁ¿´óĞ¡£º" + volume);
+			// Log.d(TAG, "å½“å‰æ­£åœ¨è¯´è¯ï¼ŒéŸ³é‡å¤§å°ï¼š" + volume);
 			// Log.d(TAG, data.length + "");
 		}
 
 		@Override
 		public void onEndOfSpeech() {
-			// ´Ë»Øµ÷±íÊ¾£º¼ì²âµ½ÁËÓïÒôµÄÎ²¶Ëµã£¬ÒÑ¾­½øÈëÊ¶±ğ¹ı³Ì£¬²»ÔÙ½ÓÊÜÓïÒôÊäÈë
-			Log.d(TAG, "½áÊøËµ»°");
+			// æ­¤å›è°ƒè¡¨ç¤ºï¼šæ£€æµ‹åˆ°äº†è¯­éŸ³çš„å°¾ç«¯ç‚¹ï¼Œå·²ç»è¿›å…¥è¯†åˆ«è¿‡ç¨‹ï¼Œä¸å†æ¥å—è¯­éŸ³è¾“å…¥
+			Log.d(TAG, "ç»“æŸè¯´è¯");
 			mCircleWaveView.setVisibility(View.GONE);
 			stat = STATUS_None;
 		}
 
 		@Override
 		public void onBeginOfSpeech() {
-			// ´Ë»Øµ÷±íÊ¾£ºsdkÄÚ²¿Â¼Òô»úÒÑ¾­×¼±¸ºÃÁË£¬ÓÃ»§¿ÉÒÔ¿ªÊ¼ÓïÒôÊäÈë
+			// æ­¤å›è°ƒè¡¨ç¤ºï¼šsdkå†…éƒ¨å½•éŸ³æœºå·²ç»å‡†å¤‡å¥½äº†ï¼Œç”¨æˆ·å¯ä»¥å¼€å§‹è¯­éŸ³è¾“å…¥
 			mCircleWaveView.setVisibility(View.VISIBLE);
-			Log.d(TAG, "¿ªÊ¼Ëµ»°");
+			Log.d(TAG, "å¼€å§‹è¯´è¯");
 		}
 
 		@Override
 		public void onError(SpeechError error) {
 			Log.d(TAG, error.getPlainDescription(true));
-			mTts.startSpeaking("ÄúºÃÏñÃ»Ëµ»°Å¶£¡", mTtsListener);
-			send("ÄúºÃÏñÃ»Ëµ»°Å¶£¡");
+			mTts.startSpeaking("æ‚¨å¥½åƒæ²¡è¯´è¯å“¦ï¼", mTtsListener);
+			send("æ‚¨å¥½åƒæ²¡è¯´è¯å“¦ï¼");
 			mCircleWaveView.setVisibility(View.GONE);
 			stat = STATUS_None;
 		}
 
 		@Override
 		public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
-			// ÒÔÏÂ´úÂëÓÃÓÚ»ñÈ¡ÓëÔÆ¶ËµÄ»á»°id£¬µ±ÒµÎñ³ö´íÊ±½«»á»°idÌá¹©¸ø¼¼ÊõÖ§³ÖÈËÔ±£¬¿ÉÓÃÓÚ²éÑ¯»á»°ÈÕÖ¾£¬¶¨Î»³ö´íÔ­Òò
+			// ä»¥ä¸‹ä»£ç ç”¨äºè·å–ä¸äº‘ç«¯çš„ä¼šè¯idï¼Œå½“ä¸šåŠ¡å‡ºé”™æ—¶å°†ä¼šè¯idæä¾›ç»™æŠ€æœ¯æ”¯æŒäººå‘˜ï¼Œå¯ç”¨äºæŸ¥è¯¢ä¼šè¯æ—¥å¿—ï¼Œå®šä½å‡ºé”™åŸå› 
 			if (SpeechEvent.EVENT_SESSION_ID == eventType) {
 				String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
 				Log.d(TAG, "session id =" + sid);
@@ -626,7 +626,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	};
 
 	/**
-	 * ²ÎÊıÉèÖÃ
+	 * å‚æ•°è®¾ç½®
 	 * 
 	 * @param param
 	 * @return
@@ -634,8 +634,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void setUnderParam() {
 		mSpeechUnderstander.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
 		mSpeechUnderstander.setParameter(SpeechConstant.ACCENT, "zh_cn");
-		mSpeechUnderstander.setParameter(SpeechConstant.VAD_BOS, "5000");// ÉèÖÃÓïÒôÇ°¶Ëµã
-		mSpeechUnderstander.setParameter(SpeechConstant.VAD_EOS, "1500");// ÉèÖÃÓïÒôºó¶Ëµã
+		mSpeechUnderstander.setParameter(SpeechConstant.VAD_BOS, "5000");// è®¾ç½®è¯­éŸ³å‰ç«¯ç‚¹
+		mSpeechUnderstander.setParameter(SpeechConstant.VAD_EOS, "1500");// è®¾ç½®è¯­éŸ³åç«¯ç‚¹
 		mSpeechUnderstander.setParameter(SpeechConstant.ASR_PTT, "1");
 		mSpeechUnderstander.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
 		mSpeechUnderstander.setParameter(SpeechConstant.ASR_AUDIO_PATH,
@@ -643,54 +643,54 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void setTtsParam() {
-		// Çå¿Õ²ÎÊı
+		// æ¸…ç©ºå‚æ•°
 		mTts.setParameter(SpeechConstant.PARAMS, null);
 		mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-		// ÉèÖÃ·¢ÒôÈË
+		// è®¾ç½®å‘éŸ³äºº
 		mTts.setParameter(SpeechConstant.VOICE_NAME, voicerCloud);
-		mTts.setParameter(SpeechConstant.SPEED, "50");// ÉèÖÃºÏ³ÉÓïËÙ
-		mTts.setParameter(SpeechConstant.PITCH, "50");// ÉèÖÃºÏ³ÉÒôµ÷
-		mTts.setParameter(SpeechConstant.VOLUME, "50");// ÉèÖÃºÏ³ÉÒôÁ¿
-		mTts.setParameter(SpeechConstant.STREAM_TYPE, "3");// ÉèÖÃ²¥·ÅÆ÷ÒôÆµÁ÷ÀàĞÍ
-		mTts.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");// ÉèÖÃ²¥·ÅºÏ³ÉÒôÆµ´ò¶ÏÒôÀÖ²¥·Å£¬Ä¬ÈÏÎªtrue
+		mTts.setParameter(SpeechConstant.SPEED, "50");// è®¾ç½®åˆæˆè¯­é€Ÿ
+		mTts.setParameter(SpeechConstant.PITCH, "50");// è®¾ç½®åˆæˆéŸ³è°ƒ
+		mTts.setParameter(SpeechConstant.VOLUME, "50");// è®¾ç½®åˆæˆéŸ³é‡
+		mTts.setParameter(SpeechConstant.STREAM_TYPE, "3");// è®¾ç½®æ’­æ”¾å™¨éŸ³é¢‘æµç±»å‹
+		mTts.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");// è®¾ç½®æ’­æ”¾åˆæˆéŸ³é¢‘æ‰“æ–­éŸ³ä¹æ’­æ”¾ï¼Œé»˜è®¤ä¸ºtrue
 		mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
 		mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts.wav");
 	}
 
 	/**
-	 * ºÏ³É»Øµ÷¼àÌı¡£
+	 * åˆæˆå›è°ƒç›‘å¬ã€‚
 	 */
 	private SynthesizerListener mTtsListener = new SynthesizerListener() {
 
 		@Override
 		public void onSpeakBegin() {
-			Log.d(TAG, "¿ªÊ¼²¥·Å");
+			Log.d(TAG, "å¼€å§‹æ’­æ”¾");
 		}
 
 		@Override
 		public void onSpeakPaused() {
-			Log.d(TAG, "ÔİÍ£²¥·Å");
+			Log.d(TAG, "æš‚åœæ’­æ”¾");
 		}
 
 		@Override
 		public void onSpeakResumed() {
-			Log.d(TAG, "¼ÌĞø²¥·Å");
+			Log.d(TAG, "ç»§ç»­æ’­æ”¾");
 		}
 
 		@Override
 		public void onBufferProgress(int percent, int beginPos, int endPos, String info) {
-			// ºÏ³É½ø¶È
+			// åˆæˆè¿›åº¦
 		}
 
 		@Override
 		public void onSpeakProgress(int percent, int beginPos, int endPos) {
-			// ²¥·Å½ø¶È
+			// æ’­æ”¾è¿›åº¦
 		}
 
 		@Override
 		public void onCompleted(SpeechError error) {
 			if (error == null) {
-				Log.d(TAG, "²¥·ÅÍê³É");
+				Log.d(TAG, "æ’­æ”¾å®Œæˆ");
 
 			} else if (error != null) {
 				Log.d(TAG, error.getPlainDescription(true));
