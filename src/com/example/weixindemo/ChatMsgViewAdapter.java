@@ -99,24 +99,24 @@ public class ChatMsgViewAdapter extends BaseAdapter{
 			viewHolder.tvContent.setText(spannableString);
 			viewHolder.tvTime.setText(entity.getTime());
 		}
-		viewHolder.tvContent.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(entity.getText().contains(".amr")){
-					playMusic(android.os.Environment.getExternalStorageDirectory()+"/"+entity.getText()) ;
-				}
-				else{
-					Intent intent = new Intent();
-					Bundle bundle = new Bundle();
-				   // String id=entity.getText().toString();
-					bundle.putInt("ID", postion);
-					intent.putExtras(bundle);
-					intent.setClass(ctx, PhotoActivity.class);
-					ctx.startActivity(intent);
-				}
-			}
-		});
+//		viewHolder.tvContent.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				if(entity.getText().contains(".amr")){
+//					playMusic(android.os.Environment.getExternalStorageDirectory()+"/"+entity.getText()) ;
+//				}
+//				else{
+//					Intent intent = new Intent();
+//					Bundle bundle = new Bundle();
+//				   // String id=entity.getText().toString();
+//					bundle.putInt("ID", postion);
+//					intent.putExtras(bundle);
+//					intent.setClass(ctx, PhotoActivity.class);
+//					ctx.startActivity(intent);
+//				}
+//			}
+//		});
 		viewHolder.tvUserName.setText(entity.getName());
 		return converView;
 	}

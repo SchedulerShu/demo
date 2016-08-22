@@ -1,29 +1,18 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/voice_main_bg"
+    android:orientation="horizontal"
     tools:context=".MainActivity" >
 
     <RelativeLayout
-        android:id="@+id/rl_bottom"
-        android:layout_width="150dp"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true">
-
-        <!-- 聊天输入框 -->
-        <include
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-			android:layout_centerVertical="true"            
-            layout="@layout/face_relativelayout" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="500dp"
-        android:layout_height="match_parent" 
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         android:layout_alignParentLeft="true"
-        >
+        android:layout_weight="1" >
 
         <ListView
             android:id="@+id/listview"
@@ -34,8 +23,23 @@
             android:divider="@null"
             android:dividerHeight="5dp"
             android:scrollbarStyle="outsideOverlay"
-            android:stackFromBottom="true" />
+            android:stackFromBottom="false" />
         <!-- 录音显示Ui层 -->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="300dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true" >
+
+        <!-- 聊天输入框 -->
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            layout="@layout/face_relativelayout" />
     </RelativeLayout>
 
     <LinearLayout
@@ -51,4 +55,4 @@
             layout="@layout/voice_rcd_hint_window" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

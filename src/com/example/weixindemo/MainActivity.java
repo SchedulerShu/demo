@@ -183,7 +183,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		String text = "欢迎光临，请吩咐";
 
 		// mTts.startSpeaking(text, mTtsListener);
-		send(text);
+		sendGril(text);
 
 		isshow = true;
 
@@ -569,14 +569,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				Log.d(TAG, "answerText   :" + answerText);
 				setTtsParam();
 				if (!TextUtils.isEmpty(text)) {
-					send(answerText);
+					sendGril(answerText);
 				}
 				if (rc == 0) {
 					String sh = UnderstanderConttoller.getInstance().execute(MainActivity.this, service, text);
 					Log.d(TAG, "sh  :" + sh);
 					if (!TextUtils.isEmpty(sh)) {
 						mTts.startSpeaking(sh, mTtsListener);
-						sendGril(sh);
+						send(sh);
 					}
 				}
 			} else {
@@ -610,7 +610,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onError(SpeechError error) {
 			Log.d(TAG, error.getPlainDescription(true));
 			mTts.startSpeaking("您好像没说话哦！", mTtsListener);
-			send("您好像没说话哦！");
+			sendGril("您好像没说话哦！");
 			mCircleWaveView.setVisibility(View.GONE);
 			stat = STATUS_None;
 		}
