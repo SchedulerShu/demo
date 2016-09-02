@@ -183,7 +183,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		String text = "欢迎光临，请吩咐";
 
 		// mTts.startSpeaking(text, mTtsListener);
-		sendGril(text);
+		send(text);
 
 		isshow = true;
 
@@ -610,7 +610,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onError(SpeechError error) {
 			Log.d(TAG, error.getPlainDescription(true));
 			mTts.startSpeaking("您好像没说话哦！", mTtsListener);
-			sendGril("您好像没说话哦！");
+			send("您好像没说话哦！");
 			mCircleWaveView.setVisibility(View.GONE);
 			stat = STATUS_None;
 		}
