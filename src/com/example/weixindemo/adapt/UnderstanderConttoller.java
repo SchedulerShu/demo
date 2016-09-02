@@ -78,21 +78,21 @@ public class UnderstanderConttoller {
 				WeatherJson weather = gson.fromJson(command, WeatherJson.class);
 				StringBuffer sbBuffer = new StringBuffer();
 				sbBuffer.append(weather.getData().getResult().get(0).getCity());
-				sbBuffer.append("ÌìÆø");
+				sbBuffer.append("ï¼Œ");
 				sbBuffer.append(weather.getData().getResult().get(0).getWeather());
-				sbBuffer.append("¿ÕÆøÖÊÁ¿"+weather.getData().getResult().get(0).getAirQuality());
-				sbBuffer.append("ÎÂ¶È"+weather.getData().getResult().get(0).getTempRange());
+				sbBuffer.append("ç©ºæ°”è´¨é‡"+weather.getData().getResult().get(0).getAirQuality());
+				sbBuffer.append("ï¼Œæ¸©åº¦ä¸º"+weather.getData().getResult().get(0).getTempRange());
 				Log.d(TAG, "text  :"+sbBuffer);
 				return sbBuffer.toString();
 			}else if("websearch".equals(service)){
 				CommonJson ss = gson.fromJson(command, CommonJson.class);
 				String text = ss.getText();
-				
 				Log.d(TAG, "text  :"+text);
 				return text;
-			}
-			else{
-				return "²»ÄÜÊ¶±ğ£¡";
+			}else if("cookbook".equals(service)){
+				return "æš‚æ—¶ä¸èƒ½è¯†åˆ«ï¼";
+			}else{
+				return "ä¸èƒ½è¯†åˆ«ï¼";
 			}
 		}
 		return null;
