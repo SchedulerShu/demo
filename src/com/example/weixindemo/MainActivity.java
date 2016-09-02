@@ -255,7 +255,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (conString.length() > 0) {
 			ChatMsgEntity entity = new ChatMsgEntity();
 			// entity.setDate(getDate());
-			entity.setName("古月哥欠");
+			entity.setName("小白");
 			entity.setMsgType(false);
 			entity.setText(conString);
 			mDateArrays.add(entity);
@@ -270,7 +270,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (conString.length() > 0) {
 			ChatMsgEntity entity = new ChatMsgEntity();
 			// entity.setDate(getDate());
-			entity.setName("蔷薇泡沫");
+			entity.setName("小新");
 			entity.setMsgType(true);
 			entity.setText(conString);
 			mDateArrays.add(entity);
@@ -439,7 +439,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			if (camera.toString().length() > 0) {
 				ChatMsgEntity entity = new ChatMsgEntity();
 				entity.setDate(getDate());
-				entity.setName("古月哥欠");
+				entity.setName("小白");
 				entity.setMsgType(false);
 				entity.setText("[" + camera.toString() + "]");
 				mDateArrays.add(entity);
@@ -458,7 +458,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				bmpUrls.add(bmpUrl);
 				ChatMsgEntity entity = new ChatMsgEntity();
 				entity.setDate(getDate());
-				entity.setName("古月哥欠");
+				entity.setName("小白");
 				entity.setMsgType(false);
 				entity.setText("[" + bmpUrl + "]");
 				mDateArrays.add(entity);
